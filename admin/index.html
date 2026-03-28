@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Mind Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">🌱</div>
+      <span class="topbar-title">Mind Flow — Admin</span>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost" id="btn-site-settings">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2"/></svg>
+        Site Settings
+      </button>
+      <a href="/" target="_blank" class="btn btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View site
+      </a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Left panel: page list -->
+    <aside class="panel-left">
+      <div class="panel-left-header">
+        <span class="panel-title">Pages</span>
+        <button class="btn btn-primary btn-sm" id="btn-new-page">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New
+        </button>
+      </div>
+
+      <div class="search-filter">
+        <input type="text" id="page-filter" placeholder="Filter pages…" />
+      </div>
+
+      <div class="page-list" id="page-list">
+        <div class="list-loading">Loading pages…</div>
+      </div>
+
+      <div class="panel-left-footer">
+        <button class="btn btn-ghost btn-sm" id="btn-manage-folders">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          Manage Folders
+        </button>
+      </div>
+    </aside>
+
+    <!-- Right panel: editor -->
+    <main class="panel-right" id="panel-right">
+      <div class="editor-empty">
+        <div class="editor-empty-icon">📝</div>
+        <p>Select a page to edit, or create a new one</p>
+        <button class="btn btn-primary" id="btn-new-page-2">+ New Page</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Folders modal -->
+  <div class="modal-overlay" id="folders-modal" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Manage Folders</h2>
+        <button class="modal-close" id="folders-modal-close">✕</button>
+      </div>
+      <div class="modal-body" id="folders-modal-body">
+        <!-- dynamic -->
+      </div>
+      <div class="modal-footer">
+        <div class="new-folder-row">
+          <input type="text" id="new-folder-name" placeholder="New folder name…" />
+          <button class="btn btn-primary btn-sm" id="btn-add-folder">Add Folder</button>
+        </div>
+        <button class="btn btn-primary" id="btn-save-folders">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Settings modal -->
+  <div class="modal-overlay" id="site-settings-modal" style="display:none">
+    <div class="modal" style="width:580px">
+      <div class="modal-header">
+        <h2>⚙️ Site Settings</h2>
+        <button class="modal-close" id="site-settings-close">✕</button>
+      </div>
+      <div class="modal-body" id="site-settings-body">
+
+        <!-- Avatar upload -->
+        <div class="settings-section">
+          <div class="settings-section-title">Avatar</div>
+          <div class="avatar-editor">
+            <div class="avatar-preview-wrap">
+              <img id="settings-avatar-preview" src="/avatar.png" alt="avatar" class="settings-avatar-img" />
+            </div>
+            <div class="avatar-editor-right">
+              <label class="hero-upload-label" for="settings-avatar-file">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload new avatar
+              </label>
+              <input type="file" id="settings-avatar-file" accept="image/*" />
+              <p class="field-hint" style="margin-top:8px">Recommended: 200×200px. JPG, PNG, WebP, SVG.<br>The file will replace the current avatar immediately.</p>
+              <div id="avatar-upload-status"></div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="settings-divider" />
+
+        <!-- Text fields -->
+        <div class="settings-section">
+          <div class="settings-section-title">Site Info</div>
+
+          <div class="field" style="margin-bottom:14px">
+            <label>Site Name</label>
+            <input type="text" id="settings-site-name" placeholder="my mind garden" />
+          </div>
+
+          <div class="field" style="margin-bottom:14px">
+            <label>Description <span class="field-hint">(shown in search engines)</span></label>
+            <textarea id="settings-description" rows="3" placeholder="A personal knowledge base…"></textarea>
+          </div>
+
+          <div class="field" style="margin-bottom:14px">
+            <label>Author Name <span class="field-hint">(optional)</span></label>
+            <input type="text" id="settings-author" placeholder="Your name" />
+          </div>
+
+          <div class="field">
+            <label>Footer Text</label>
+            <input type="text" id="settings-footer" placeholder="Powered by a digital garden" />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content:flex-end;gap:10px">
+        <button class="btn btn-ghost" id="site-settings-cancel">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-site-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete confirm modal -->
+  <div class="modal-overlay" id="delete-modal" style="display:none">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Delete Page</h2>
+        <button class="modal-close" id="delete-modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <strong id="delete-page-title"></strong>?</p>
+        <p class="text-muted">This cannot be undone. Backlinks to this page will also be removed.</p>
+      </div>
+      <div class="modal-footer" style="justify-content:flex-end;gap:10px">
+        <button class="btn btn-ghost" id="delete-cancel">Cancel</button>
+        <button class="btn btn-danger" id="delete-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mind flow – my flow</title>
+  <meta name="description" content="my flow – a personal space where thoughts grow and connect over time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+      <!-- Profile -->
+      <div class="profile">
+        <div class="avatar-wrap">
+          <img src="avatar.png" alt="my avatar" class="avatar" id="avatar-img" />
+        </div>
+        <span class="site-name">mind flow</span>
+      </div>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <div class="search-box" id="search-box">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input type="text" id="search-input" placeholder="Search page or heading..." autocomplete="off" />
+        </div>
+        <div class="search-results" id="search-results"></div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="nav-tree" id="nav-tree">
+        <!-- Pinned links -->
+        <div class="nav-pinned">
+          <a href="#" class="nav-link" data-page="welcome" id="nav-welcome">welcome</a>
+          <a href="#" class="nav-link" data-page="now" id="nav-now">now</a>
+          <a href="#" class="nav-link" data-page="start-here" id="nav-start-here">start here</a>
+        </div>
+
+        <!-- Collapsible folders -->
+        <div class="nav-folders" id="nav-folders"></div>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Mobile top bar -->
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <span class="mobile-title">mind flow</span>
+  </header>
+
+  <!-- Main content -->
+  <main class="main" id="main-content">
+    <div class="page-content" id="page-content">
+      <!-- Content loaded dynamically -->
+    </div>
+
+    <!-- Hover preview tooltip -->
+    <div class="link-preview" id="link-preview">
+      <div class="preview-title" id="preview-title"></div>
+      <div class="preview-excerpt" id="preview-excerpt"></div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

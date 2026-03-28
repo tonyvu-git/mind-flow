@@ -1,0 +1,177 @@
+{
+  "welcome": {
+    "title": "welcome",
+    "tags": [
+      "#welcome"
+    ],
+    "folder": null,
+    "hero": null,
+    "content": "<p>Hello, and welcome to my <strong>mind garden</strong> — a digital space where I tend to ideas, notes, and things that fascinate me.</p>\n<p>A mind garden is different from a blog. Instead of posts ordered by date, it's a web of interconnected notes that grow and evolve over time. Some notes are polished and complete; others are just seeds waiting to bloom.</p>\n<p>The best place to start exploring is the <a class=\"wiki-link\" data-page=\"mind-garden\">! mind garden</a> overview, or dive directly into any topic that calls to you in the sidebar.</p>\n<blockquote>\"A garden is never finished — and that's what makes it beautiful.\"</blockquote>\n<p>Feel free to wander. Follow the links. Get lost. That's the point.</p>\n<h2>How to navigate</h2>\n<ul>\n<li>Use the <strong>sidebar</strong> to browse topics</li>\n<li>Use the <strong>search bar</strong> to find specific notes</li>\n<li>Follow <a class=\"wiki-link\" data-page=\"mind-garden\">internal links</a> to explore connected ideas</li>\n<li>Check the <strong>backlinks</strong> at the bottom of each page to see what links here</li>\n</ul>\n<p>I'm always adding and refining things. Some areas are lush; others are just tilled soil waiting for seeds.</p>",
+    "backlinks": [
+      "mind-garden",
+      "start-here"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "now": {
+    "title": "now",
+    "tags": [
+      "#now"
+    ],
+    "folder": null,
+    "hero": null,
+    "content": "<p>This is my <em>now</em> page — a snapshot of what I'm focused on at this moment in time.</p>\n<p><em>Updated: March 2026</em></p>\n<h2>Currently working on</h2>\n<ul>\n<li>Expanding my notes on <a class=\"wiki-link\" data-page=\"creativity\">creativity</a> and the creative process</li>\n<li>Learning more about <a class=\"wiki-link\" data-page=\"learning-in-public\">learning in public</a></li>\n<li>Exploring connections between different fields of knowledge</li>\n</ul>\n<h2>Currently reading</h2>\n<ul>\n<li><em>How to Take Smart Notes</em> – Sönke Ahrens</li>\n<li><em>The Art of Learning</em> – Josh Waitzkin</li>\n<li><em>Steal Like an Artist</em> – Austin Kleon</li>\n</ul>\n<h2>Recently planted in the garden</h2>\n<ul>\n<li><a class=\"wiki-link\" data-page=\"architects-vs-gardeners\">architects vs gardeners</a></li>\n<li><a class=\"wiki-link\" data-page=\"map-of-content\">map of content</a></li>\n<li><a class=\"wiki-link\" data-page=\"learning-in-public\">learning in public</a></li>\n</ul>",
+    "backlinks": [
+      "welcome",
+      "mind-garden"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "start-here": {
+    "title": "start here",
+    "tags": [
+      "#meta"
+    ],
+    "folder": null,
+    "hero": null,
+    "content": "<p>Not sure where to begin? Here are some jumping-off points based on what interests you:</p>\n<h2>If you're curious about knowledge management</h2>\n<ul>\n<li><a class=\"wiki-link\" data-page=\"mind-garden\">! mind garden</a> — what this place is and why it exists</li>\n<li><a class=\"wiki-link\" data-page=\"map-of-content\">map of content</a> — how I organize large topics</li>\n<li><a class=\"wiki-link\" data-page=\"architects-vs-gardeners\">architects vs gardeners</a> — two approaches to building things</li>\n</ul>\n<h2>If you're interested in creativity</h2>\n<ul>\n<li><a class=\"wiki-link\" data-page=\"creativity\">creativity</a> — my notes on the creative process</li>\n<li><a class=\"wiki-link\" data-page=\"learning-in-public\">learning in public</a> — sharing work while still learning</li>\n</ul>\n<div class=\"callout\"><div class=\"callout-title\">💡 Tip</div>The sidebar folders contain all my notes by topic. You can expand any folder to browse, or use the search bar to find something specific.</div>",
+    "backlinks": [
+      "welcome",
+      "mind-garden"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "mind-garden": {
+    "title": "! mind garden",
+    "tags": [
+      "#mindgarden"
+    ],
+    "folder": "mind gardens",
+    "hero": "hero.png",
+    "content": "<p>A <strong>mind garden</strong> is a personal knowledge base that grows over time — more like a garden than a blog.</p>\n<p>Unlike a blog where posts are ordered chronologically and considered \"finished\" once published, a mind garden is an evolving collection of notes, ideas, and connections. Some notes are seeds — just rough thoughts. Others are essays in progress. A few are fully grown.</p>\n<p>There's really good stuff in here waiting to be rediscovered. I'm continually adding to it too as I find new things online. There's almost the start to a whisper of a vague sense of order. Almost.</p>\n<p>This public garden is closer to an intentionally manicured landscape with different planting areas set aside for specific themes. Some of the areas are filling in quite nicely, while others are nothing more than tilled ground still waiting for seed. There are yet other areas that only exist as vague possibilities in my mind. They haven't been sketched out yet, let alone planted with anything. The process of organizing thoughts and <a class=\"wiki-link\" data-page=\"making-connections\">making connections</a> helps me to <a class=\"wiki-link\" data-page=\"write-to-understand\">write to understand</a>.</p>\n<p>I recently made the completely obvious realization that it was kind of dumb to have redundant topic pages in both my private and public vaults. So I'm trying to move topic pages (aka <a class=\"wiki-link\" data-page=\"map-of-content\">map of content</a> pages) into the public side of the garden. This means a visitor will probably find even more pages that appear mostly empty. On my side, though, there's a tangled mess of backlinks waiting to be cultivated. Eventually those curated pages will start getting content filled in as I spend time diving into the concepts.</p>\n<p>I understand that cultivating and refining a mind garden takes time and effort, much like a real garden. I won't always be able to spend time in my garden, although I know I feel better when I'm able to carve out regular visits. Some areas are going to languish while I work on different sections. Still, I find it fun to try making sense of ideas and finding connections.</p>\n<p>I hope you enjoy exploring my garden.</p>",
+    "backlinks": [
+      "welcome",
+      "now",
+      "start-here",
+      "architects-vs-gardeners"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "architects-vs-gardeners": {
+    "title": "architects vs gardeners",
+    "tags": [
+      "#mindgarden",
+      "#creativity"
+    ],
+    "folder": "mind gardens",
+    "hero": null,
+    "content": "<p>George R.R. Martin once described two types of writers: <strong>architects</strong> and <strong>gardeners</strong>.</p>\n<blockquote>\"I think there are two types of writers, the architects and the gardeners. The architects plan everything ahead of time, like an architect building a house... The gardeners dig a hole, drop in a seed and water it.\"</blockquote>\n<h2>The Architect approach</h2>\n<p>Architects plan before they build. They design comprehensive systems, define clear hierarchies, and map out connections before creating content. The appeal is obvious: structure, clarity, and a sense of control.</p>\n<h2>The Gardener approach</h2>\n<p>Gardeners start planting and see what grows. A <a class=\"wiki-link\" data-page=\"mind-garden\">mind garden</a> leans heavily into this metaphor. You plant seeds (write notes), water them (revisit and expand), and let the garden surprise you with unexpected connections.</p>\n<h2>Which approach is better?</h2>\n<p>Neither — and both. The best approach depends on the task and your personality. Most of us are a blend. I know I am.</p>",
+    "backlinks": [
+      "mind-garden",
+      "creativity"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "creativity": {
+    "title": "creativity",
+    "tags": [
+      "#creativity",
+      "#map-of-content"
+    ],
+    "folder": "creativity",
+    "hero": null,
+    "content": "<p>This is a <a class=\"wiki-link\" data-page=\"map-of-content\">map of content</a> for everything I'm collecting and thinking about related to creativity.</p>\n<h2>Core ideas</h2>\n<ul>\n<li><a class=\"wiki-link\" data-page=\"learning-in-public\">learning in public</a> — sharing the process, not just the result</li>\n<li><a class=\"wiki-link\" data-page=\"architects-vs-gardeners\">architects vs gardeners</a> — different creative personalities</li>\n<li><a class=\"wiki-link\" data-page=\"write-to-understand\">write to understand</a> — using writing as thinking</li>\n</ul>\n<h2>The creative process</h2>\n<p>Creativity isn't a lightning bolt — it's a process. Most creative work involves:</p>\n<ol>\n<li><strong>Input</strong> — consuming widely and voraciously</li>\n<li><strong>Processing</strong> — letting ideas marinate and collide</li>\n<li><strong>Output</strong> — making something, even imperfectly</li>\n<li><strong>Reflection</strong> — reviewing and refining</li>\n</ol>\n<blockquote>\"Creativity is just connecting things.\" — Steve Jobs</blockquote>\n<p>The more diverse your inputs, the more interesting your connections will be. This is why curiosity is the creative person's most valuable trait.</p>",
+    "backlinks": [
+      "architects-vs-gardeners",
+      "learning-in-public"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "learning-in-public": {
+    "title": "learning in public",
+    "tags": [
+      "#creativity",
+      "#learning"
+    ],
+    "folder": "creativity",
+    "hero": null,
+    "content": "<p><strong>Learning in public</strong> means sharing the process of learning — not waiting until you're an expert before sharing what you know.</p>\n<h2>Why learn in public?</h2>\n<ul>\n<li>Teaching reinforces your own understanding</li>\n<li>You build an audience of people on a similar journey</li>\n<li>Your \"ignorance\" is actually a bridge — you explain things in a way experts forgot how to</li>\n<li>You create a trail of breadcrumbs you can reference later</li>\n<li>Feedback from others accelerates your learning</li>\n</ul>\n<h2>The fear of being wrong</h2>\n<p>The biggest barrier is fear of being wrong or looking foolish. But being wrong publicly is powerful — corrections help you learn faster, and the courage to be wrong is what enables learning at all.</p>\n<blockquote>\"Whatever you're learning, make a habit of creating learning exhaust.\"</blockquote>\n<p>This mind garden is itself an exercise in learning in public — a place where I think out loud and let you see the work in progress.</p>",
+    "backlinks": [
+      "creativity",
+      "mind-garden"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "map-of-content": {
+    "title": "map of content",
+    "tags": [
+      "#meta",
+      "#organization"
+    ],
+    "folder": "mind gardens",
+    "hero": null,
+    "content": "<p>A <strong>Map of Content</strong> (MOC) is a note that links to many other notes about a topic. Think of it like a table of contents or a hub page for a cluster of related ideas.</p>\n<h2>How I use MOCs</h2>\n<ul>\n<li>Each major topic has an MOC (like the <a class=\"wiki-link\" data-page=\"creativity\">creativity</a> page)</li>\n<li>Notes link to the relevant MOC(s) they belong to</li>\n<li>The MOC grows organically as I add more notes</li>\n</ul>\n<blockquote>\"Structure emerges; it isn't imposed.\" — Nick Milo</blockquote>",
+    "backlinks": [
+      "mind-garden",
+      "now",
+      "architects-vs-gardeners"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "making-connections": {
+    "title": "making connections",
+    "tags": [
+      "#creativity",
+      "#learning"
+    ],
+    "folder": "creativity",
+    "hero": null,
+    "content": "<p>One of the most valuable things you can do with knowledge is connect it. A fact in isolation is a curiosity; a fact connected to other facts becomes insight.</p>\n<h2>How connections form</h2>\n<ul>\n<li><strong>Reading widely:</strong> The wider you read, the more potential connections you have</li>\n<li><strong>Writing:</strong> Writing forces you to articulate connections you sense but haven't made explicit</li>\n<li><strong>Time:</strong> Sometimes connections only emerge after ideas have had time to settle</li>\n<li><strong>Conversation:</strong> Other people see connections you miss</li>\n</ul>\n<blockquote>\"The secret to creativity is knowing how to hide your sources.\" — Einstein (maybe)</blockquote>",
+    "backlinks": [
+      "mind-garden",
+      "creativity"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "write-to-understand": {
+    "title": "write to understand",
+    "tags": [
+      "#creativity",
+      "#writing"
+    ],
+    "folder": "creativity",
+    "hero": null,
+    "content": "<p>Writing isn't just communication — it's thinking. When I write about an idea, I often discover I understand it less than I thought.</p>\n<p>The act of writing forces precision. Vague intuitions become gaps in logic; fuzzy ideas become concrete questions. This is why writing is one of the best learning tools available.</p>\n<blockquote>\"How do I know what I think until I see what I say?\" — E.M. Forster</blockquote>",
+    "backlinks": [
+      "mind-garden",
+      "creativity",
+      "making-connections"
+    ],
+    "createdAt": "2026-03-28T00:00:00.000Z",
+    "updatedAt": "2026-03-28T00:00:00.000Z"
+  },
+  "swimming": {
+    "title": "swimming",
+    "tags": [
+      "#swim",
+      "#pool",
+      "#warm water",
+      "#aeon mall Long Bien"
+    ],
+    "folder": "mind gardens",
+    "hero": null,
+    "content": "I will go to the swimming pool on Saturday and Sunday.\n<img src=\"https://toancaupool.com/wp-content/uploads/2023/04/review-chi-tiet-be-boi-aeon-mall-long-bien.jpg\" alt=\"swimming pool\">",
+    "backlinks": [],
+    "createdAt": "2026-03-28T15:10:50.488Z",
+    "updatedAt": "2026-03-28T15:11:03.398Z"
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "mind gardens",
+    "pages": [
+      "mind-garden",
+      "architects-vs-gardeners",
+      "map-of-content",
+      "swimming"
+    ]
+  },
+  {
+    "name": "creativity",
+    "pages": [
+      "creativity",
+      "learning-in-public",
+      "making-connections",
+      "write-to-understand"
+    ]
+  }
+]
