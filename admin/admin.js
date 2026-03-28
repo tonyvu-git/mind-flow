@@ -14,6 +14,7 @@ let pendingHeroFile = null;
 let pendingDeleteId = null;
 // Folder edit state (for the modal)
 let editFolders = [];
+let isAuthenticated = false;
 
 // ─── DOM refs ─────────────────────────────────────────
 const pageList = document.getElementById('page-list');
@@ -52,7 +53,11 @@ async function loadAll() {
     ]);
     renderPageList();
   } catch (e) {
-    showToast('Failed to load data: ' + e.message, 'error');
+    if (e.message && e.message.includes('401')) {
+      showLoginOverlay();
+    } else {
+      showToast('Failed to load data: ' + e.message, 'error');
+    }
   }
 }
 
@@ -738,5 +743,81 @@ document.getElementById('btn-save-site-settings').addEventListener('click', asyn
 });
 
 // ─── Boot ─────────────────────────────────────────────
-loadAll();
+// ─── Auth ─────────────────────────────────────────────
+const loginOverlay = document.getElementById('login-overlay');
+const loginPasswordInput = document.getElementById('login-password');
+const loginErrorEl = document.getElementById('login-error');
+const btnLogin = document.getElementById('btn-login');
+const btnLogout = document.getElementById('btn-logout');
 
+function showLoginOverlay() {
+  loginOverlay.classList.remove('hiding', 'hidden');
+  btnLogout.style.display = 'none';
+  setTimeout(() => loginPasswordInput && loginPasswordInput.focus(), 300);
+}
+
+function hideLoginOverlay() {
+  loginOverlay.classList.add('hiding');
+  btnLogout.style.display = '';
+  setTimeout(() => loginOverlay.classList.add('hidden'), 400);
+}
+
+async function doLogin() {
+  const password = loginPasswordInput.value;
+  if (!password) {
+    loginErrorEl.textContent = 'Please enter your password.';
+    loginErrorEl.style.display = 'block';
+    return;
+  }
+
+  btnLogin.innerHTML = '<span class="spinner"></span> Signing in\u2026';
+  btnLogin.disabled = true;
+  loginErrorEl.style.display = 'none';
+
+  try {
+    await apiFetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ password })
+    });
+    isAuthenticated = true;
+    hideLoginOverlay();
+    loginPasswordInput.value = '';
+    await loadAll();
+  } catch (e) {
+    loginErrorEl.textContent = e.message || 'Incorrect password';
+    loginErrorEl.style.display = 'block';
+    loginPasswordInput.select();
+  } finally {
+    btnLogin.innerHTML = 'Sign In';
+    btnLogin.disabled = false;
+  }
+}
+
+btnLogin.addEventListener('click', doLogin);
+loginPasswordInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+btnLogout.addEventListener('click', async () => {
+  try {
+    await apiFetch('/api/logout', { method: 'POST' });
+  } catch (_) { /* ignore */ }
+  isAuthenticated = false;
+  showLoginOverlay();
+  showToast('Logged out');
+});
+
+(async () => {
+  try {
+    const status = await apiFetch('/api/auth/status');
+    if (status.authenticated) {
+      isAuthenticated = true;
+      hideLoginOverlay();
+      await loadAll();
+    } else {
+      showLoginOverlay();
+    }
+  } catch (e) {
+    showLoginOverlay();
+  }
+})();

@@ -6,6 +6,7 @@
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
+const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
 
@@ -28,7 +29,59 @@ if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Static: admin panel at /admin
+// Session
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'mind-garden-dev-secret-change-me',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  }
+}));
+
+// ─── Auth helpers ─────────────────────────────────────
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin';
+
+function checkAuth(req, res, next) {
+  if (req.session && req.session.authenticated) return next();
+  return res.status(401).json({ error: 'Unauthorized' });
+}
+
+// ─── Auth endpoints ───────────────────────────────────
+
+// GET /api/auth/status — check if logged in
+app.get('/api/auth/status', (req, res) => {
+  res.json({ authenticated: !!(req.session && req.session.authenticated) });
+});
+
+// POST /api/login
+app.post('/api/login', (req, res) => {
+  const { password } = req.body;
+  if (password === ADMIN_PASSWORD) {
+    req.session.authenticated = true;
+    return res.json({ success: true });
+  }
+  return res.status(401).json({ error: 'Incorrect password' });
+});
+
+// POST /api/logout
+app.post('/api/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.json({ success: true });
+  });
+});
+
+// Static: admin panel at /admin — protected by checkAuth
+app.use('/admin', (req, res, next) => {
+  // Allow index.html and static assets (CSS/JS) without auth
+  // so the login screen can render
+  const ext = path.extname(req.path);
+  // Allow CSS, JS, fonts, images (static assets needed for login screen)
+  if (ext && ext !== '.html') return next();
+  // Always allow the main HTML (login overlay is embedded)
+  return next();
+});
 app.use('/admin', express.static(ADMIN_DIR));
 
 // Static: frontend at /
@@ -125,7 +178,7 @@ app.get('/api/pages/:id', (req, res) => {
 });
 
 // POST /api/pages — create new page
-app.post('/api/pages', (req, res) => {
+app.post('/api/pages', checkAuth, (req, res) => {
   const pages = readPages();
   const { id: customId, title, tags, folder, hero, content, backlinks } = req.body;
 
@@ -167,7 +220,7 @@ app.post('/api/pages', (req, res) => {
 });
 
 // PUT /api/pages/:id — update page
-app.put('/api/pages/:id', (req, res) => {
+app.put('/api/pages/:id', checkAuth, (req, res) => {
   const pages = readPages();
   const { id } = req.params;
 
@@ -214,7 +267,7 @@ app.put('/api/pages/:id', (req, res) => {
 });
 
 // DELETE /api/pages/:id — delete page
-app.delete('/api/pages/:id', (req, res) => {
+app.delete('/api/pages/:id', checkAuth, (req, res) => {
   const pages = readPages();
   const { id } = req.params;
 
@@ -251,7 +304,7 @@ app.get('/api/folders', (req, res) => {
 });
 
 // PUT /api/folders — replace entire folder structure
-app.put('/api/folders', (req, res) => {
+app.put('/api/folders', checkAuth, (req, res) => {
   const { folders } = req.body;
   if (!Array.isArray(folders)) return res.status(400).json({ error: 'folders must be an array' });
   writeFolders(folders);
@@ -259,7 +312,7 @@ app.put('/api/folders', (req, res) => {
 });
 
 // POST /api/folders — add new folder
-app.post('/api/folders', (req, res) => {
+app.post('/api/folders', checkAuth, (req, res) => {
   const { name } = req.body;
   if (!name) return res.status(400).json({ error: 'name is required' });
   const folders = readFolders();
@@ -272,7 +325,7 @@ app.post('/api/folders', (req, res) => {
 });
 
 // DELETE /api/folders/:name — remove folder (pages unassigned)
-app.delete('/api/folders/:name', (req, res) => {
+app.delete('/api/folders/:name', checkAuth, (req, res) => {
   const name = decodeURIComponent(req.params.name);
   const folders = readFolders();
   const idx = folders.findIndex(f => f.name === name);
@@ -320,7 +373,7 @@ app.get('/api/search', (req, res) => {
 });
 
 // ─── API: Image upload ────────────────────────────────
-app.post('/api/upload', upload.single('image'), (req, res) => {
+app.post('/api/upload', checkAuth, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
   // Return path relative to public dir
   const relativePath = `uploads/${req.file.filename}`;
@@ -328,7 +381,7 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
 });
 
 // DELETE /api/upload/:filename — remove uploaded image
-app.delete('/api/upload/:filename', (req, res) => {
+app.delete('/api/upload/:filename', checkAuth, (req, res) => {
   const filePath = path.join(UPLOADS_DIR, req.params.filename);
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
@@ -346,7 +399,7 @@ app.get('/api/site', (req, res) => {
 });
 
 // PUT /api/site — update site metadata (name, description, footerText, authorName)
-app.put('/api/site', (req, res) => {
+app.put('/api/site', checkAuth, (req, res) => {
   const site = readSite();
   const { siteName, description, authorName, footerText } = req.body;
   if (siteName !== undefined) site.siteName = siteName.trim();
@@ -358,7 +411,7 @@ app.put('/api/site', (req, res) => {
 });
 
 // POST /api/upload/avatar — upload new avatar image
-app.post('/api/upload/avatar', uploadAvatar.single('avatar'), (req, res) => {
+app.post('/api/upload/avatar', checkAuth, uploadAvatar.single('avatar'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
   const ext = path.extname(req.file.originalname);
   const filename = `avatar${ext}`;
