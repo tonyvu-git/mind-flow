@@ -74,6 +74,13 @@ function applySiteSettings() {
   // Meta description
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc && SITE.description) metaDesc.setAttribute('content', SITE.description);
+
+  // Apply theme
+  if (SITE.theme === 'dark') {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
 }
 
 // ─── Build sidebar folders ────────────────────────────
@@ -167,7 +174,7 @@ function renderPage(pageId) {
     <div class="page-body">${page.content}</div>
     ${backlinksHTML}
     ${updatedAt}
-    <div class="pwby">Powered by a digital garden</div>
+    <div class="pwby">${SITE.footerText || 'Powered by a flow'}</div>
   `;
 
   // Wire wiki links
@@ -322,7 +329,7 @@ function showTagPage(tag) {
       <p>All pages tagged with <strong>${tag}</strong>:</p>
       ${matches.map(([id, p]) => `<a class="wiki-link" data-page="${id}">${p.title}</a>`).join('')}
     </div>
-    <div class="pwby">Powered by a digital garden</div>
+    <div class="pwby">${SITE.footerText || 'Powered by a flow'}</div>
   `;
   pageContent.querySelectorAll('.wiki-link').forEach(link => {
     const pid = link.dataset.page;

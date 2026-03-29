@@ -693,6 +693,14 @@ async function openSiteSettings() {
     document.getElementById('settings-description').value = site.description || '';
     document.getElementById('settings-author').value = site.authorName || '';
     document.getElementById('settings-footer').value = site.footerText || '';
+    document.getElementById('settings-theme').value = site.theme || 'dark';
+
+    // Apply theme immediately to admin for preview
+    if (site.theme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
 
     // Set avatar preview with cache bust
     const avatarPreview = document.getElementById('settings-avatar-preview');
@@ -755,9 +763,19 @@ document.getElementById('btn-save-site-settings').addEventListener('click', asyn
         description: document.getElementById('settings-description').value,
         authorName: document.getElementById('settings-author').value,
         footerText: document.getElementById('settings-footer').value,
+        theme: document.getElementById('settings-theme').value,
       })
     });
     showToast('✓ Site settings saved');
+    
+    // Apply theme change locally
+    const selectedTheme = document.getElementById('settings-theme').value;
+    if (selectedTheme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+
     siteSettingsModal.style.display = 'none';
   } catch (e) {
     showToast('Error: ' + e.message, 'error');

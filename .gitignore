@@ -4,3 +4,8 @@ public/uploads/
 .DS_Store
 Thumbs.db
 .env
+*.zip
+live_backup/
+backup-v2.zip
+backup-chuan.zip
+data/

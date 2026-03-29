@@ -28,6 +28,22 @@
   --font: 'Inter', -apple-system, sans-serif;
 }
 
+body.light-theme {
+  --bg: #f8f9fc;
+  --surface: #ffffff;
+  --surface2: #eff1f8;
+  --surface3: #e2e5f3;
+  --border: #d8dde9;
+  --border-light: #c2c9d6;
+  --text: #1a1d23;
+  --text-muted: #5e6675;
+  --text-light: #8a94a6;
+  --accent: #4a5ae0;
+  --accent-hover: #3646c0;
+  --accent-light: rgba(74,90,224,0.1);
+  --danger: #d13d4b;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 15px; }
 body {

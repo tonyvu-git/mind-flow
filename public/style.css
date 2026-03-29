@@ -39,6 +39,31 @@
   --transition: 0.18s ease;
 }
 
+body.dark-theme {
+  --bg: #0f1117;
+  --sidebar-bg: #161922;
+  --content-bg: #0f1117;
+  --border: #262b3a;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  --link: #93c5fd;
+  --link-hover: #bfdbfe;
+  --tag-bg: #1e293b;
+  --tag-color: #cbd5e1;
+  --accent: #3b82f6;
+  --accent-light: rgba(59,130,246,0.15);
+  --highlight: #1e2e1e;
+  --nav-active-bg: #1e293b;
+  --nav-hover: #1e293b;
+  --preview-bg: #1e293b;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --shadow-md: rgba(0, 0, 0, 0.6);
+  --code-bg: #1e293b;
+  --blockquote-border: #334155;
+  --blockquote-bg: #1e293b;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

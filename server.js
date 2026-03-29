@@ -117,7 +117,7 @@ function readSite() {
   try {
     return JSON.parse(fs.readFileSync(SITE_FILE, 'utf-8'));
   } catch {
-    return { siteName: 'my mind garden', description: '', avatar: 'avatar.png', authorName: '', footerText: 'Powered by a digital garden' };
+    return { siteName: 'my mind garden', description: '', avatar: 'avatar.png', authorName: '', footerText: 'Powered by a flow', theme: 'dark' };
   }
 }
 
@@ -218,7 +218,7 @@ app.post('/api/backup/import', checkAuth, uploadBackup.single('backup'), (req, r
     if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
     zipEntries.forEach((entry) => {
-       const entryName = entry.entryName;
+       const entryName = entry.entryName.replace(/\\/g, '/');
        
        // Handle JSON files inside 'data'
        if (entryName.startsWith('data/')) {
@@ -487,11 +487,12 @@ app.get('/api/site', (req, res) => {
 // PUT /api/site — update site metadata (name, description, footerText, authorName)
 app.put('/api/site', checkAuth, (req, res) => {
   const site = readSite();
-  const { siteName, description, authorName, footerText } = req.body;
+  const { siteName, description, authorName, footerText, theme } = req.body;
   if (siteName !== undefined) site.siteName = siteName.trim();
   if (description !== undefined) site.description = description.trim();
   if (authorName !== undefined) site.authorName = authorName.trim();
   if (footerText !== undefined) site.footerText = footerText.trim();
+  if (theme !== undefined) site.theme = theme;
   writeSite(site);
   res.json({ success: true, site });
 });
