@@ -4,6 +4,54 @@
 
 const API = '';  // same origin
 
+// ─── Configure Marked.js for Wiki Links ─────────────
+marked.use({
+  renderer: {
+    link(hrefOrObj, title, text) {
+      let h = hrefOrObj;
+      let t = text;
+      let tit = title;
+
+      if (typeof hrefOrObj === 'object' && hrefOrObj !== null) {
+        h = hrefOrObj.href;
+        t = hrefOrObj.text;
+        tit = hrefOrObj.title;
+      }
+
+      // Safeguard against missing href
+      const href = h || '';
+      const linkText = t || href || '';
+      
+      const isExternal = /^https?:\/\//.test(href) || href.startsWith('//') || href.startsWith('#');
+      if (isExternal) {
+        return `<a href="${href}" title="${tit || ''}" target="_blank" class="external-link">${linkText}</a>`;
+      }
+      // Internal wiki link: use data-page and class
+      return `<a class="wiki-link" data-page="${href}">${linkText}</a>`;
+    }
+  },
+  extensions: [{
+    name: 'wikiLink',
+    level: 'inline',
+    start(src) { return src.indexOf('[['); },
+    tokenizer(src, tokens) {
+      const rule = /^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/;
+      const match = rule.exec(src);
+      if (match) {
+        return {
+          type: 'wikiLink',
+          raw: match[0],
+          pageId: match[1].trim(),
+          text: (match[2] || match[1]).trim()
+        };
+      }
+    },
+    renderer(token) {
+      return `<a class="wiki-link" data-page="${token.pageId}">${token.text}</a>`;
+    }
+  }]
+});
+
 // ─── State ────────────────────────────────────────────
 let allPages = {};
 let allFolders = [];
