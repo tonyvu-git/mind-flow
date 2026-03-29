@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <!-- Top bar -->
@@ -142,6 +143,28 @@
             <input type="text" id="settings-footer" placeholder="Powered by a digital garden" />
           </div>
         </div>
+
+        <hr class="settings-divider" />
+
+        <!-- Backup and Restore -->
+        <div class="settings-section">
+          <div class="settings-section-title">Backup & Restore</div>
+          <p class="field-hint" style="margin-bottom:12px">Download a full backup of your content (JSON files and images) or restore from an existing backup.</p>
+          <div style="display:flex; gap:10px; align-items:center;">
+             <button class="btn btn-primary" id="btn-export-backup" style="flex:1; justify-content:center;">
+               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+               Download Backup
+             </button>
+             
+             <label class="btn btn-ghost" style="flex:1; justify-content:center; cursor:pointer;">
+               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+               Restore Backup (.zip)
+               <input type="file" id="import-backup-file" accept=".zip" style="display:none;" />
+             </label>
+          </div>
+          <div id="backup-restore-status" style="margin-top:8px"></div>
+        </div>
+
       </div>
 
       <div class="modal-footer" style="justify-content:flex-end;gap:10px">

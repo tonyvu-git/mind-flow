@@ -9,6 +9,7 @@ const multer = require('multer');
 const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
+const AdmZip = require('adm-zip');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -162,6 +163,89 @@ const avatarStorage = multer.diskStorage({
 });
 const uploadAvatar = multer({ storage: avatarStorage, limits: { fileSize: 3 * 1024 * 1024 }, fileFilter: imageFileFilter });
 
+// Backup upload
+const backupStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, DATA_DIR),
+  filename: (req, file, cb) => cb(null, `backup-${Date.now()}.zip`)
+});
+const uploadBackup = multer({ storage: backupStorage, limits: { fileSize: 50 * 1024 * 1024 } });
+
+// ─── API: Backups ────────────────────────────────────
+
+// GET /api/backup/export
+app.get('/api/backup/export', checkAuth, (req, res) => {
+  try {
+    const zip = new AdmZip();
+    
+    // Add raw json data
+    if (fs.existsSync(PAGES_FILE)) zip.addLocalFile(PAGES_FILE, 'data');
+    if (fs.existsSync(FOLDERS_FILE)) zip.addLocalFile(FOLDERS_FILE, 'data');
+    if (fs.existsSync(SITE_FILE)) zip.addLocalFile(SITE_FILE, 'data');
+
+    // Add uploads folder
+    if (fs.existsSync(UPLOADS_DIR)) {
+      zip.addLocalFolder(UPLOADS_DIR, 'uploads');
+    }
+
+    // Add avatar from public dir
+    const site = readSite();
+    if (site.avatar) {
+      const avatarPath = path.join(PUBLIC_DIR, site.avatar);
+      if (fs.existsSync(avatarPath)) {
+        zip.addLocalFile(avatarPath, 'public');
+      }
+    }
+
+    const zipBuffer = zip.toBuffer();
+    res.set('Content-Type', 'application/zip');
+    res.set('Content-Disposition', 'attachment; filename="mind-garden-backup.zip"');
+    res.send(zipBuffer);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create backup: ' + err.message });
+  }
+});
+
+// POST /api/backup/import
+app.post('/api/backup/import', checkAuth, uploadBackup.single('backup'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No backup file provided' });
+
+  try {
+    const zip = new AdmZip(req.file.path);
+    const zipEntries = zip.getEntries();
+    
+    // Create folders if they don't exist
+    if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+    zipEntries.forEach((entry) => {
+       const entryName = entry.entryName;
+       
+       // Handle JSON files inside 'data'
+       if (entryName.startsWith('data/')) {
+          const filename = path.basename(entryName);
+          if (filename.endsWith('.json')) {
+             zip.extractEntryTo(entry, DATA_DIR, false, true);
+          }
+       }
+       // Handle uploads
+       else if (entryName.startsWith('uploads/') && !entry.isDirectory) {
+          zip.extractEntryTo(entry, UPLOADS_DIR, false, true);
+       }
+       // Handle public files (avatar)
+       else if (entryName.startsWith('public/') && !entry.isDirectory) {
+          zip.extractEntryTo(entry, PUBLIC_DIR, false, true);
+       }
+    });
+    
+    // Clean up temporary zip
+    fs.unlinkSync(req.file.path);
+    res.json({ success: true, message: 'Restore completed successfully' });
+  } catch (err) {
+    if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    res.status(500).json({ error: 'Failed to restore backup: ' + err.message });
+  }
+});
+
 // ─── API: Pages ──────────────────────────────────────
 
 // GET /api/pages — all pages
@@ -180,7 +264,7 @@ app.get('/api/pages/:id', (req, res) => {
 // POST /api/pages — create new page
 app.post('/api/pages', checkAuth, (req, res) => {
   const pages = readPages();
-  const { id: customId, title, tags, folder, hero, content, backlinks } = req.body;
+  const { id: customId, title, tags, folder, hero, content, contentMarkdown, backlinks } = req.body;
 
   if (!title) return res.status(400).json({ error: 'Title is required' });
 
@@ -197,6 +281,7 @@ app.post('/api/pages', checkAuth, (req, res) => {
     folder: folder || null,
     hero: hero || null,
     content: content || '',
+    contentMarkdown: contentMarkdown || '',
     backlinks: Array.isArray(backlinks) ? backlinks : [],
     createdAt: now,
     updatedAt: now
@@ -226,7 +311,7 @@ app.put('/api/pages/:id', checkAuth, (req, res) => {
 
   if (!pages[id]) return res.status(404).json({ error: 'Page not found' });
 
-  const { title, tags, folder, hero, content, backlinks } = req.body;
+  const { title, tags, folder, hero, content, contentMarkdown, backlinks } = req.body;
   const oldFolder = pages[id].folder;
 
   pages[id] = {
@@ -236,6 +321,7 @@ app.put('/api/pages/:id', checkAuth, (req, res) => {
     folder: folder !== undefined ? (folder || null) : pages[id].folder,
     hero: hero !== undefined ? (hero || null) : pages[id].hero,
     content: content !== undefined ? content : pages[id].content,
+    contentMarkdown: contentMarkdown !== undefined ? contentMarkdown : pages[id].contentMarkdown,
     backlinks: Array.isArray(backlinks) ? backlinks : pages[id].backlinks,
     updatedAt: new Date().toISOString()
   };

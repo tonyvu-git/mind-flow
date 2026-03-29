@@ -221,9 +221,14 @@ function renderEditor(id, page) {
 
         <!-- Content -->
         <div class="field">
-          <label>Content (HTML)</label>
-          <textarea id="f-content" rows="16" placeholder="&lt;p&gt;Your content here…&lt;/p&gt;">${escapeHtml(page.content || '')}</textarea>
-          <span class="field-hint">Use standard HTML. Wiki links: &lt;a class="wiki-link" data-page="page-id"&gt;text&lt;/a&gt;</span>
+          <label>Content (Markdown)</label>
+          <textarea id="f-content-markdown" rows="12" placeholder="Write your content in Markdown...">${escapeHtml(page.contentMarkdown || '')}</textarea>
+        </div>
+
+        <div class="field">
+          <label>Content (HTML) <span class="field-hint">(Auto-generated)</span></label>
+          <textarea id="f-content" rows="6" placeholder="&lt;p&gt;Your content here…&lt;/p&gt;" disabled>${escapeHtml(page.content || '')}</textarea>
+          <span class="field-hint">Wiki links: &lt;a class="wiki-link" data-page="page-id"&gt;text&lt;/a&gt;</span>
         </div>
 
         <!-- Backlinks -->
@@ -252,7 +257,14 @@ function renderEditor(id, page) {
   // Wire events
   document.getElementById('btn-save-page').addEventListener('click', savePage);
   document.getElementById('btn-delete-page').addEventListener('click', () => openDeleteModal(id, page.title));
-  document.getElementById('f-content').addEventListener('input', updatePreview);
+  
+  const mdInput = document.getElementById('f-content-markdown');
+  const htmlInput = document.getElementById('f-content');
+  mdInput.addEventListener('input', () => {
+    htmlInput.value = marked.parse(mdInput.value);
+    updatePreview();
+  });
+
   document.getElementById('f-title').addEventListener('input', updatePreview);
   document.getElementById('tags-input').addEventListener('keydown', onTagInput);
   document.getElementById('hero-file-input').addEventListener('change', onHeroUpload);
@@ -320,8 +332,13 @@ function renderNewPageForm() {
 
         <!-- Content -->
         <div class="field">
-          <label>Content (HTML)</label>
-          <textarea id="f-content" rows="14" placeholder="&lt;p&gt;Your content here…&lt;/p&gt;"></textarea>
+          <label>Content (Markdown)</label>
+          <textarea id="f-content-markdown" rows="10" placeholder="Write your content in Markdown..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Content (HTML) <span class="field-hint">(Auto-generated)</span></label>
+          <textarea id="f-content" rows="4" placeholder="&lt;p&gt;Your content here…&lt;/p&gt;" disabled></textarea>
           <span class="field-hint">Wiki links: &lt;a class="wiki-link" data-page="page-id"&gt;text&lt;/a&gt;</span>
         </div>
       </div>
@@ -354,7 +371,14 @@ function renderNewPageForm() {
     document.getElementById('btn-new-page-2').addEventListener('click', renderNewPageForm);
     isNew = false;
   });
-  document.getElementById('f-content').addEventListener('input', updatePreview);
+
+  const mdInput = document.getElementById('f-content-markdown');
+  const htmlInput = document.getElementById('f-content');
+  mdInput.addEventListener('input', () => {
+    htmlInput.value = marked.parse(mdInput.value);
+    updatePreview();
+  });
+
   document.getElementById('tags-input').addEventListener('keydown', onTagInput);
 
   titleInput.focus();
@@ -480,6 +504,7 @@ async function savePage() {
       tags: [...currentTags],
       folder: folderEl?.value || null,
       content: contentEl?.value || '',
+      contentMarkdown: document.getElementById('f-content-markdown')?.value || '',
       backlinks,
     };
 
@@ -740,6 +765,45 @@ document.getElementById('btn-save-site-settings').addEventListener('click', asyn
     btn.innerHTML = orig;
     btn.disabled = false;
   }
+});
+
+// ─── Backup & Restore ─────────────────────────────────
+
+document.getElementById('btn-export-backup').addEventListener('click', () => {
+  // Trigger download by opening the API endpoint
+  window.location.href = '/api/backup/export';
+});
+
+document.getElementById('import-backup-file').addEventListener('change', async function() {
+  const file = this.files[0];
+  if (!file) return;
+
+  const statusEl = document.getElementById('backup-restore-status');
+  statusEl.textContent = 'Uploading and Restoring... Please wait...';
+  statusEl.className = '';
+  statusEl.style.color = 'var(--accent)';
+
+  try {
+    const fd = new FormData();
+    fd.append('backup', file);
+    const res = await fetch('/api/backup/import', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Restore failed');
+
+    statusEl.innerHTML = '✓ Restore completed successfully! <br><span style="font-size:0.8em">Reloading page...</span>';
+    statusEl.style.color = 'var(--success)';
+    
+    // Reload interface
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+
+  } catch (e) {
+    statusEl.textContent = '✗ ' + e.message;
+    statusEl.style.color = 'var(--danger)';
+    showToast('Restore failed: ' + e.message, 'error');
+  }
+  this.value = ''; // reset input
 });
 
 // ─── Boot ─────────────────────────────────────────────

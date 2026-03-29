@@ -6,13 +6,14 @@
     ],
     "folder": null,
     "hero": null,
-    "content": "<p>Hello, and welcome to my <strong>mind garden</strong> — a digital space where I tend to ideas, notes, and things that fascinate me.</p>\n<p>A mind garden is different from a blog. Instead of posts ordered by date, it's a web of interconnected notes that grow and evolve over time. Some notes are polished and complete; others are just seeds waiting to bloom.</p>\n<p>The best place to start exploring is the <a class=\"wiki-link\" data-page=\"mind-garden\">! mind garden</a> overview, or dive directly into any topic that calls to you in the sidebar.</p>\n<blockquote>\"A garden is never finished — and that's what makes it beautiful.\"</blockquote>\n<p>Feel free to wander. Follow the links. Get lost. That's the point.</p>\n<h2>How to navigate</h2>\n<ul>\n<li>Use the <strong>sidebar</strong> to browse topics</li>\n<li>Use the <strong>search bar</strong> to find specific notes</li>\n<li>Follow <a class=\"wiki-link\" data-page=\"mind-garden\">internal links</a> to explore connected ideas</li>\n<li>Check the <strong>backlinks</strong> at the bottom of each page to see what links here</li>\n</ul>\n<p>I'm always adding and refining things. Some areas are lush; others are just tilled soil waiting for seeds.</p>",
+    "content": "<h1>Hello World</h1>\n<p>This is <strong>bold</strong> text.</p>\n",
     "backlinks": [
-      "mind-garden",
-      "start-here"
+      "start-here",
+      "mind-garden"
     ],
     "createdAt": "2026-03-28T00:00:00.000Z",
-    "updatedAt": "2026-03-28T00:00:00.000Z"
+    "updatedAt": "2026-03-29T07:31:57.072Z",
+    "contentMarkdown": "# Hello World\nThis is **bold** text."
   },
   "now": {
     "title": "now",

@@ -262,6 +262,12 @@ body {
   resize: vertical;
   min-height: 280px;
 }
+.field textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  background: var(--surface);
+  border-style: dashed;
+}
 
 .field-hint { font-size: 0.72rem; color: var(--text-light); }
 
